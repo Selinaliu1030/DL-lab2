@@ -74,7 +74,7 @@ We utilized the Successive Halving Algorithm to efficiently search the hyperpara
 
 We evaluated our fine-tuned model against the original baseline:
 
-| trainer | lr | lr_scheduler | batch_sz | gas | Val Loss | Perplexity | 
+| trainer | lr | lr_scheduler | batch_sz | gas | Val Loss | Perplexity | Status |
 | original trainer | 2e-4 | linear | 4 | 2 | 0.7879 | 2.1987 | Eliminated |
 | selected trainer | 1e-5 | cosine | 32 | 2 | **0.7241** | **2.063** | **Selected** |
 
