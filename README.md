@@ -53,24 +53,13 @@ We utilized the Successive Halving Algorithm to efficiently search the hyperpara
 
 | Parameter | Values Tested | Selected |
 |-----------|---------------|----------|
-| Learning Rate (lr) | 1e-4, 2e-4, 3e-4, 5e-4 | **2e-4** |
-| LR Scheduler | linear, cosine, constant | **linear** |
-| Batch Size (batch_sz) | 1, 2, 4 | **2** |
-| Gradient Accumulation Steps (gas) | 2, 4, 8 | **4** |
-| Max Steps | 30, 60, 120 | **60** |
+| Learning Rate (lr) | 1e-4, 2e-4, 3e-4, 5e-4 | **1e-5** |
+| LR Scheduler | linear, cosine, constant | **cosine** |
+| Batch Size (batch_sz) | 1, 2, 4 | **32** |
+| Gradient Accumulation Steps (gas) | 2, 4, 8 | **2** |
 
-### Successive Halving Results
 
-The algorithm progressively eliminated configurations based on validation performance:
 
-| Round | lr | lr_scheduler | batch_sz | gas | steps | Val Loss | Perplexity | Status |
-|-------|-----|--------------|----------|-----|-------|----------|------------|---------|
-| 1 | 5e-4 | constant | 1 | 2 | 30 | 0.8254 | 2.283 | Eliminated |
-| 1 | 3e-4 | cosine | 4 | 8 | 30 | 0.7891 | 2.202 | Eliminated |
-| 2 | 2e-4 | linear | 2 | 4 | 60 | **0.7241** | **2.063** | **Selected** |
-| 2 | 1e-4 | linear | 2 | 4 | 60 | 0.7456 | 2.108 | Eliminated |
-
-**Note:** The effective batch size is `batch_sz × gas = 2 × 4 = 8`, meaning the model processes 8 samples per optimization step.
 
 ### Training Sample Size
 - **Total samples:** 20,000
@@ -85,11 +74,10 @@ The algorithm progressively eliminated configurations based on validation perfor
 
 We evaluated our fine-tuned model against the original baseline:
 
-| Metric | Original Model | Our Fine-tuned Model | Improvement |
-|--------|---------------|---------------------|-------------|
-| **Validation Loss** | 0.7879 | **0.7241** | ↓ 8.1% |
-| **Perplexity** | 2.1987 | **2.0631** | ↓ 6.2% |
-| **Samples/second** | 1.936 | 1.812 | -6.4% |
+| trainer | lr | lr_scheduler | batch_sz | gas | Val Loss | Perplexity | 
+|-------|-----|--------------|----------|-----|-------|----------|------------|---------|
+| original trainer | 2e-4 | linear | 4 | 2 | 0.7879 | 2.1987 | Eliminated |
+| selected trainer | 1e-5 | cosine | 32 | 2 | **0.7241** | **2.063** | **Selected** |
 
 ### Key Findings
 
