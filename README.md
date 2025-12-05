@@ -123,8 +123,8 @@ We deployed the fine-tuned model using **Gradio** and hosted it on **Hugging Fac
    - Implements chat template formatting for Llama 3.2
 
 ### Access
-- **Hugging Face Space:** [Insert your Space URL here]
-- **Model Repository:** [Insert your model repo URL here]
+- **Hugging Face Space:** https://huggingface.co/spaces/Selinaliu1030/iris2
+
 
 ---
 
