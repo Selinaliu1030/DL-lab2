@@ -53,9 +53,9 @@ We utilized the Successive Halving Algorithm to efficiently search the hyperpara
 
 | Parameter | Values Tested | Selected |
 |-----------|---------------|----------|
-| Learning Rate (lr) | 1e-4, 2e-4, 3e-4, 5e-4 | **1e-5** |
-| LR Scheduler | linear, cosine, constant | **cosine** |
-| Batch Size (batch_sz) | 1, 2, 4 | **32** |
+| Learning Rate (lr) | 2e-4,1e-5,1e-6  | **1e-5** |
+| LR Scheduler | linear, cosine | **cosine** |
+| Batch Size (batch_sz) | 4, 16, 32 | **32** |
 | Gradient Accumulation Steps (gas) | 2, 4, 8 | **2** |
 
 
