@@ -53,18 +53,26 @@ We utilized the Successive Halving Algorithm to efficiently search the hyperpara
 
 | Parameter | Values Tested | Selected |
 |-----------|---------------|----------|
-| Learning Rate (lr) | 2e-4,1e-5,1e-6  | **1e-5** |
+| Learning Rate (lr) | 2e-4, 1e-5, 1e-6 | **1e-5** |
 | LR Scheduler | linear, cosine | **cosine** |
 | Batch Size (batch_sz) | 4, 16, 32 | **32** |
 | Gradient Accumulation Steps (gas) | 2, 4, 8 | **2** |
 
+### Successive Halving Results
 
+The algorithm progressively eliminated configurations based on validation performance:
 
+| Trainer | lr | lr_scheduler | batch_sz | gas | Val Loss | Perplexity | Status |
+|---------|-----|--------------|----------|-----|----------|------------|---------|
+| original trainer | 2e-4 | linear | 4 | 2 | 0.7879 | 2.1987 | Eliminated |
+| selected trainer | 1e-5 | cosine | 32 | 2 | **0.7241** | **2.063** | **Selected** |
+
+**Note:** The effective batch size is `batch_sz × gas = 32 × 2 = 64`, meaning the model processes 64 samples per optimization step.
 
 ### Training Sample Size
 - **Total samples:** 20,000
-- **Calculation:** 20,000 = batch_size × gradient_accumulation_steps × max_steps
-- **Verification:** 2 × 4 × 60 = 480 updates (processing ~41.67 samples per update on average from the 90,000 train samples)
+- **Calculation:** Total samples processed during training
+- **Configuration:** batch_size=32, gradient_accumulation_steps=2, resulting in effective batch size of 64
 
 ---
 
@@ -74,13 +82,15 @@ We utilized the Successive Halving Algorithm to efficiently search the hyperpara
 
 We evaluated our fine-tuned model against the original baseline:
 
-| trainer | lr | lr_scheduler | batch_sz | gas | Val Loss | Perplexity | Status |
-| original trainer | 2e-4 | linear | 4 | 2 | 0.7879 | 2.1987 | Eliminated |
-| selected trainer | 1e-5 | cosine | 32 | 2 | **0.7241** | **2.063** | **Selected** |
+| Metric | Original Model | Our Fine-tuned Model | Improvement |
+|--------|---------------|---------------------|-------------|
+| **Validation Loss** | 0.7879 | **0.7241** | ↓ 8.1% |
+| **Perplexity** | 2.1987 | **2.063** | ↓ 6.2% |
+| **Samples/second** | 1.936 | 1.812 | -6.4% |
 
 ### Key Findings
 
-1. **Lower Perplexity:** Our model achieved a perplexity of 2.0631, indicating better prediction confidence and more coherent text generation
+1. **Lower Perplexity:** Our model achieved a perplexity of 2.063, indicating better prediction confidence and more coherent text generation
 2. **Reduced Loss:** 8.1% reduction in validation loss demonstrates improved learning
 3. **Training Efficiency:** While inference speed decreased slightly, the quality improvements justify the trade-off
 4. **Successful Hyperparameter Tuning:** The Successive Halving approach efficiently identified optimal configurations without exhaustive search
@@ -112,6 +122,9 @@ We deployed the fine-tuned model using **Gradio** and hosted it on **Hugging Fac
    - Uses `AutoModelForCausalLM` and `AutoTokenizer` from Transformers
    - Implements chat template formatting for Llama 3.2
 
+### Access
+- **Hugging Face Space:** [Insert your Space URL here]
+- **Model Repository:** [Insert your model repo URL here]
 
 ---
 
