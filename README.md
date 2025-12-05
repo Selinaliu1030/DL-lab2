@@ -6,6 +6,7 @@ Hanaé Ben Makhlouf (hanaebm@kth.se)
 
 ## Project Overview
 
+## Checkpoints
 ## Finetune
 We utilized Successive Halving Algorithm to find the best parameter to train the model. 
 | lr | lr_scheduler | batch_sz | gas | steps | result
